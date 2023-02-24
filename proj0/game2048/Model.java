@@ -110,6 +110,13 @@ public class Model extends Observable {
         boolean changed;
         changed = false;
 
+        for (int c = 0; c < this.board.size(); c++){
+            Tile[] col = new Tile[this.board.size()];
+            for (int r = 0; r < this.board.size(); r++){
+                col[r] = this.board.tile(c,r);
+            }
+        }
+
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
@@ -137,7 +144,13 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        for (int r = 0; r < b.size(); r++){
+            for (int c = 0; c < b.size(); c++){
+                if (b.tile(c,r) == null){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -147,7 +160,15 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        for (int r = 0; r < b.size(); r++){
+            for (int c = 0; c < b.size(); c++){
+                if (b.tile(c,r) == null){
+                    continue;
+                } else if (b.tile(c,r).value() == MAX_PIECE){
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -158,10 +179,44 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        boolean holder = false;
+        for (int r = 0; r < b.size(); r++){
+            Tile[] row = new Tile[b.size()];
+            for (int c = 0; c < b.size(); c++){
+                row[c] = b.tile(c,r);
+            }
+            if (adjacentExists(row) == true){
+                holder = true;
+                break;
+            }
+        }
+        for (int c = 0; c < b.size(); c++){
+            Tile[] col = new Tile[b.size()];
+            for (int r = 0; r < b.size(); r++){
+                col[r] = b.tile(c,r);
+            }
+            if (adjacentExists(col) == true){
+                holder = true;
+                break;
+            }
+        }
+
+        if (emptySpaceExists(b) == true || holder == true) {
+            return true;
+        }
         return false;
     }
 
+    private static boolean adjacentExists(Tile[] line){
+        for (int i = 0; i < line.length-1; i++){
+            if (line[i] == null || line[i+1] == null){
+                continue;
+            } else if (line[i].value() == line[i+1].value()){
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
      /** Returns the model as a string, used for debugging. */
