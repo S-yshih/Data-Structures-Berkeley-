@@ -179,15 +179,13 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        boolean holder = false;
         for (int r = 0; r < b.size(); r++){
             Tile[] row = new Tile[b.size()];
             for (int c = 0; c < b.size(); c++){
                 row[c] = b.tile(c,r);
             }
-            if (adjacentExists(row) == true){
-                holder = true;
-                break;
+            if (adjacentExists(row)){
+                return true;
             }
         }
         for (int c = 0; c < b.size(); c++){
@@ -195,13 +193,12 @@ public class Model extends Observable {
             for (int r = 0; r < b.size(); r++){
                 col[r] = b.tile(c,r);
             }
-            if (adjacentExists(col) == true){
-                holder = true;
-                break;
+            if (adjacentExists(col)){
+                return true;
             }
         }
 
-        if (emptySpaceExists(b) == true || holder == true) {
+        if (emptySpaceExists(b)) {
             return true;
         }
         return false;
@@ -217,6 +214,7 @@ public class Model extends Observable {
         }
         return false;
     }
+
 
     @Override
      /** Returns the model as a string, used for debugging. */
