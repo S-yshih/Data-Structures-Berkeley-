@@ -2,6 +2,7 @@ package game2048;
 
 import java.util.Formatter;
 import java.util.Observable;
+import java.util.HashMap;
 
 
 /** The state of a game of 2048.
@@ -109,23 +110,100 @@ public class Model extends Observable {
     public boolean tilt(Side side) {
         boolean changed;
         changed = false;
-
+        this.board.setViewingPerspective(side);
         for (int c = 0; c < this.board.size(); c++){
+
+            /** tracks tile movement **/
+            HashMap<Integer, Integer> movement = new HashMap<Integer,Integer>();
+            for (int i = 0; i < this.board.size(); i++){
+                movement.put(i,0);
+            }
+            /** creates array representing column + adds tile values to the column **/
             Tile[] col = new Tile[this.board.size()];
             for (int r = 0; r < this.board.size(); r++){
                 col[r] = this.board.tile(c,r);
             }
+            /** slide function (only use for initial slide)**/
+            movement = slide(col, movement);
+
+            /** check if adjacent exists -> if yes, merge**/
+            if (adjacentExists(col)){
+                this.score += merge(col, c, movement);
+            }
+            /** check if board changed **/
+            for (int i: movement.values()){
+                if (i > 0){
+                    changed = true;
+                }
+            }
+            /** move(c,r,t) **/
+            moving(this.board, c, movement);
+
         }
 
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
-
+        this.board.setViewingPerspective(Side.NORTH);
         checkGameOver();
         if (changed) {
             setChanged();
         }
         return changed;
+    }
+
+    private static HashMap<Integer, Integer> slide(Tile[] col, HashMap<Integer, Integer> movement){
+        int spaces = 0;
+
+        for (int i = col.length - 1; i >= 0; i--){
+            if(col[i] == null){
+                spaces++;
+            } else {
+                if(spaces > 0) {
+                    col[i + spaces] = col[i];
+                    col[i] = null;
+                    movement.put(i,movement.get(i) + spaces);
+                }
+            }
+        }
+        return movement;
+    }
+
+    private static int merge(Tile[] col, int column, HashMap<Integer, Integer> movement){
+        int scoreChange = 0;
+        /** maps to original position**/
+        HashMap<Integer, Integer> newPosition = new HashMap<>();
+        for (int x = 0; x < col.length; x++) {
+            if (movement.get(x) > 0) {
+                newPosition.put(x + movement.get(x), x);
+            }
+        }
+        for (int i = col.length - 1; i >= 1; i--) {
+            if (col[i] == null || col[i - 1] == null) {
+            } else if (col[i].value() == col[i - 1].value()) {
+                scoreChange += col[i].value() * 2;
+                int prev = newPosition.getOrDefault(i - 1, i - 1);
+                movement.put(prev, movement.getOrDefault(prev, 0) + 1);
+                i--;
+                for (int j = i - 1; j >= 0; j--) {
+                    if (col[j] != null) {
+                        prev = newPosition.getOrDefault(j, j);
+                        movement.put(prev, movement.get(prev) + 1);
+                    }
+                }
+            }
+        }
+        return scoreChange;
+    }
+
+
+    private static void moving(Board b, int column, HashMap<Integer, Integer> movement){
+        for (int r = b.size() - 1; r >= 0; r--){
+            if(movement.get(r) > 0){
+                Tile t = b.tile(column,r);
+                b.move(column, (r + movement.get(r)), t);
+            }
+        }
     }
 
     /** Checks if the game is over and sets the gameOver variable
