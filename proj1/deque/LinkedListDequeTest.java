@@ -137,8 +137,20 @@ public class LinkedListDequeTest {
         */
     }
     @Test
-    public void emptylist(){
+    public void selfVisualization(){
         LinkedListDeque<Integer> list = new LinkedListDeque<>();
+        list.addFirst(1);
+        list.addFirst(2);
+        list.addFirst(3);
+        list.addLast(0);
+        list.addLast(-1);
+        list.addLast(-2);
+        list.addLast(-3);
+        list.removeFirst();
+        list.removeLast();
+        Integer a = list.get(0);
+        Integer b = list.get(10);
+        System.out.println(list.size());
     }
 
 }
