@@ -136,4 +136,9 @@ public class LinkedListDequeTest {
 
         */
     }
+    @Test
+    public void emptylist(){
+        LinkedListDeque<Integer> list = new LinkedListDeque<>();
+    }
+
 }
