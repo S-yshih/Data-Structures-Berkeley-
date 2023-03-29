@@ -90,7 +90,7 @@ public class LinkedListDeque<T> implements Iterable{
 
     }
     public T get(int index){
-        if (index > size()) {
+        if (index >= size()) {
             return null;
         }
         Node node = sentinel;
@@ -98,6 +98,16 @@ public class LinkedListDeque<T> implements Iterable{
             node = node.next;
         }
         return node.item;
+    }
+
+    public T getRecursive(int index){
+        return getRecursiveHelper(sentinel.next, index);
+    }
+
+    public T getRecursiveHelper(Node node, int index) {
+        if (index == 0) return node.item;
+        if (node == sentinel) return null;
+        return getRecursiveHelper(node.next, index - 1);
     }
 
     private class DLListIterator implements Iterator<T> {
@@ -122,7 +132,6 @@ public class LinkedListDeque<T> implements Iterable{
         return new DLListIterator();
     }
 
-    /** completely untested so far **/
     @Override
     public boolean equals(Object o){
         if (this == o) {

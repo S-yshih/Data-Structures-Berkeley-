@@ -158,7 +158,16 @@ public class LinkedListDequeTest {
         list2.addLast(10);
 
 
+        LinkedListDeque<Integer> list4 = new LinkedListDeque<>();
+        list4.addLast(1);
+        list4.addLast(2);
+        list4.addLast(6);
+        list4.addLast(10);
+
+
         assertEquals(list, list2);
+        assertNotEquals(list4,list2);
+        assertEquals(new LinkedListDeque<>(), new LinkedListDeque<>());
 
     }
 }
