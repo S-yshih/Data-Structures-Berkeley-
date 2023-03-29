@@ -1,19 +1,19 @@
 package deque;
 
 import java.util.Iterator;
-import java.util.Arrays;
 
-public class ArrayDeque<T> {
+public class ArrayDeque<T> implements Iterable{
     private T[] items;
     private int size;
     private int nextFirst;
     private int nextLast;
+    private int FIRST = 6;
 
     public ArrayDeque(){
         this.items = (T[]) new Object[8];
         this.size = 0;
-        this.nextFirst = 0;
-        this.nextLast = 1;
+        this.nextFirst = FIRST;
+        this.nextLast = FIRST + 1;
     }
 
     public void addFirst(T item){
@@ -44,10 +44,15 @@ public class ArrayDeque<T> {
     public int size(){
         return this.size;
     }
-/**
     public void printDeque(){
-
+        Iterator<T> it = iterator();
+        while (it.hasNext()){
+            System.out.print(it.next() + " ");
+        }
+        System.out.println();
     }
+
+/**
     public T removeFirst(){
 
     }
@@ -59,13 +64,31 @@ public class ArrayDeque<T> {
         if (index >= size){
             return null;
         }
-        return null;
+        return items[pointerChange(index, pointerChange(1, nextFirst))];
+        // the pointerChange within pointerChange is essentially nextFirst + 1
     }
 
-/**
+    private class ArrayDequeIterator implements Iterator{
+        private int first;
+        private int position;
+
+        public ArrayDequeIterator() {
+            position = 0;
+            first = pointerChange(1, nextFirst);
+        }
+        public boolean hasNext() {
+            return position < size();
+        }
+        public T next() {
+            int nextItemIndex = pointerChange(position, first);
+            position ++;
+            return items[nextItemIndex];
+        }
+    }
     public Iterator<T> iterator(){
-
+        return new ArrayDequeIterator();
     }
+/**
     public boolean equals(Object o){
 
     }
