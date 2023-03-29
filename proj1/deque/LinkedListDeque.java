@@ -2,7 +2,7 @@ package deque;
 
 import java.util.Iterator;
 
-public class LinkedListDeque<T>{
+public class LinkedListDeque<T> implements Iterable{
     private class Node{
         private T item;
         private Node next;
@@ -59,11 +59,15 @@ public class LinkedListDeque<T>{
         return this.size;
     }
 
- /**
-    public void printDeque(){
 
+    public void printDeque(){
+        Iterator<T> it = iterator();
+        while (it.hasNext()){
+            System.out.print(it.next() + " ");
+        }
+        System.out.println();
     }
-  **/
+
     public T removeFirst(){
         if (size() == 0) {
             return null;
@@ -96,12 +100,49 @@ public class LinkedListDeque<T>{
         return node.item;
     }
 
- /**
+    private class DLListIterator implements Iterator<T> {
+        private int position;
+        private Node node;
+        public DLListIterator() {
+            position = 0;
+            node = sentinel;
+        }
+        public boolean hasNext(){
+            return position < size;
+        }
+        public T next() {
+            T item = node.next.item;
+            node = node.next;
+            position ++;
+            return item;
+        }
+    }
+
     public Iterator<T> iterator(){
-
+        return new DLListIterator();
     }
+
+    /** completely untested so far **/
+    @Override
     public boolean equals(Object o){
-
+        if (this == o) {
+            return true;
+        }
+        if (o instanceof LinkedListDeque other){
+            if (this.size() != other.size()){
+                return false;
+            }
+            Iterator<T> it = iterator();
+            Node node = other.sentinel;
+            while (it.hasNext()){
+                if (it.next() != node.next.item){
+                    return false;
+                }
+                node = node.next;
+            }
+            return true;
+        }
+        return false;
     }
- **/
+
 }
