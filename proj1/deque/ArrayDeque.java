@@ -52,14 +52,24 @@ public class ArrayDeque<T> implements Iterable{
         System.out.println();
     }
 
-/**
-    public T removeFirst(){
 
+    public T removeFirst(){
+        int firstIndex = pointerChange(1, nextFirst);
+        T item = items[firstIndex];
+        items[firstIndex] = null;
+        size --;
+        nextFirst = firstIndex;
+        return item;
     }
     public T removeLast(){
-
+        int lastIndex = pointerChange(-1, nextLast);
+        T item = items[lastIndex];
+        items[lastIndex] = null;
+        size --;
+        nextLast = lastIndex;
+        return item;
     }
- **/
+
     public T get(int index){
         if (index >= size){
             return null;
@@ -88,9 +98,26 @@ public class ArrayDeque<T> implements Iterable{
     public Iterator<T> iterator(){
         return new ArrayDequeIterator();
     }
-/**
+    @Override
     public boolean equals(Object o){
-
+        if (this == o){
+            return true;
+        }
+        if (o instanceof ArrayDeque other){
+            if (this.size() != other.size()) {
+                return false;
+            }
+            Iterator<T> it = iterator();
+            int index = other.nextFirst;
+            while (it.hasNext()){
+                if(other.get(pointerChange(1, index)) == it.next()){
+                    return false;
+                }
+                index = pointerChange(1, index);
+            }
+            return true;
+        }
+        return false;
     }
- **/
+
 }

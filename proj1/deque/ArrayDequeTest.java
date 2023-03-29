@@ -24,6 +24,17 @@ public class ArrayDequeTest {
         Integer d = list.get(7);
         Integer e = list.get(4);
         list.printDeque();
+        list.removeFirst();
+        list.removeLast();
+        list.removeLast();
+        list.printDeque();
+
+        ArrayDeque<Integer> list2 = new ArrayDeque<>();
+        list2.addFirst(-1);
+        list2.addLast(0);
+        list2.addLast(1);
+
+        assertEquals(list, list2);
     }
 
 }
