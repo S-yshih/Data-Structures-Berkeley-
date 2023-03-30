@@ -16,12 +16,36 @@ public class ArrayDeque<T> implements Iterable{
         this.nextLast = FIRST + 1;
     }
 
+    public void resize(double factor){
+        int oldDequeSize = size();
+        int newArraySize = (int) (items.length * factor);
+        T[] newArray = (T[]) new Object[newArraySize];
+        int itemsIndex = pointerChange(1, nextFirst);
+        for (int i = 0; i < newArraySize; i ++){
+            newArray[i] = items[itemsIndex];
+            itemsIndex = pointerChange(1, itemsIndex);
+            if (i >= oldDequeSize-1) {
+                break;
+            }
+        }
+        this.items = newArray;
+        this.nextFirst = pointerChange(-1, 0);
+        this.nextLast = pointerChange(1, size()-1);
+
+    }
+
     public void addFirst(T item){
+        if (size() == items.length) {
+            resize(2);
+        }
         items[nextFirst] = item;
         size ++;
         this.nextFirst = pointerChange(-1, nextFirst);
     }
     public void addLast(T item){
+        if (size() == items.length) {
+            resize(2);
+        }
         items[nextLast] = item;
         size ++;
         this.nextLast = pointerChange(1, nextLast);
@@ -54,19 +78,32 @@ public class ArrayDeque<T> implements Iterable{
 
 
     public T removeFirst(){
+        if (this.isEmpty()){
+            return null;
+        }
         int firstIndex = pointerChange(1, nextFirst);
         T item = items[firstIndex];
         items[firstIndex] = null;
         size --;
         nextFirst = firstIndex;
+
+        if ((items.length > 16) && (size() < items.length * .25)) {
+            resize(.50);
+        }
         return item;
     }
     public T removeLast(){
+        if (this.isEmpty()){
+            return null;
+        }
         int lastIndex = pointerChange(-1, nextLast);
         T item = items[lastIndex];
         items[lastIndex] = null;
         size --;
         nextLast = lastIndex;
+        if ((items.length > 16) && (size() < items.length * .25)) {
+            resize(.50);
+        }
         return item;
     }
 
