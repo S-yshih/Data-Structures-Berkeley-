@@ -105,4 +105,51 @@ public class ArrayDequeTest {
         System.out.println();
         System.out.println(list.size());
     }
+
+    @Test
+    public void removeFromEmpty(){
+        ArrayDeque<Integer> list= new ArrayDeque<>();
+        assertEquals(null, list.removeLast());
+        assertEquals(null, list.removeFirst());
+    }
+
+    @Test
+    public void add50Remove50(){
+        ArrayDeque<Integer> list = new ArrayDeque<>();
+        ArrayDeque<Integer> list2 = new ArrayDeque<>();
+
+        for (int i = 0; i < 50; i ++){
+            list.addLast(i);
+        }
+        for (int i = 0; i < 50; i++){
+            list.removeFirst();
+        }
+        for (int i = 0; i < 50; i ++){
+            list2.addFirst(i);
+        }
+        for (int i = 0; i < 50; i++){
+            list2.removeFirst();
+        }
+
+        assertTrue(list.isEmpty());
+        assertTrue(list2.isEmpty());
+    }
+
+    @Test
+    /* Check if you can create LinkedListDeques with different parameterized types*/
+    public void multipleParamTest() {
+
+        ArrayDeque<String> lld1= new ArrayDeque<>();
+        ArrayDeque<Double>  lld2 = new ArrayDeque<>();
+        ArrayDeque<Boolean> lld3 = new ArrayDeque<>();
+
+        lld1.addFirst("string");
+        lld2.addFirst(3.14159);
+        lld3.addFirst(true);
+
+        String s = lld1.removeFirst();
+        double d = lld2.removeFirst();
+        boolean b = lld3.removeFirst();
+
+    }
 }

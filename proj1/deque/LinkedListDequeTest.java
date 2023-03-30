@@ -170,4 +170,34 @@ public class LinkedListDequeTest {
         assertEquals(new LinkedListDeque<>(), new LinkedListDeque<>());
 
     }
+    @Test
+    public void removeFromEmpty(){
+        LinkedListDeque<Integer> list = new LinkedListDeque<>();
+
+        assertEquals(null, list.removeLast());
+        assertEquals(null, list.removeFirst());
+    }
+
+    @Test
+    public void add50Remove50(){
+        LinkedListDeque<Integer> list = new LinkedListDeque<>();
+        LinkedListDeque<Integer> list2 = new LinkedListDeque<>();
+
+
+        for (int i = 0; i < 50; i ++){
+            list.addLast(i);
+        }
+        for (int i = 0; i < 50; i++){
+            list.removeFirst();
+        }
+        for (int i = 0; i < 50; i ++){
+            list2.addFirst(i);
+        }
+        for (int i = 0; i < 50; i++){
+            list2.removeFirst();
+        }
+
+        assertTrue(list.isEmpty());
+        assertTrue(list2.isEmpty());
+    }
 }
