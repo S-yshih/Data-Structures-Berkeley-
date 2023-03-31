@@ -4,7 +4,7 @@ package deque;
 import java.util.Comparator;
 import java.util.Iterator;
 
-public class MaxArrayDeque<T> extends ArrayDeque{
+public class MaxArrayDeque<T> extends ArrayDeque<T>{
     private Comparator<T> comparator;
 
     public MaxArrayDeque(Comparator<T> c){
@@ -20,8 +20,8 @@ public class MaxArrayDeque<T> extends ArrayDeque{
 
     public T max(Comparator<T> c){
         //returns max elem governed by passed comparator (return null if empty)
-        T max = null;
-        T prev = null;
+        T max = get(0);
+        T prev = get(0);
         Iterator<T> it = iterator();
         while (it.hasNext()){
             T maxOfTwoItems;
