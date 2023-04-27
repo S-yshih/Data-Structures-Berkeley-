@@ -86,5 +86,12 @@ public class TestBSTMap {
         b.put("hi", null);
         assertTrue(b.containsKey("hi"));
     }
-
+    @Test
+    public void helpUgh() {
+          BSTMap<Integer, Integer> b = new BSTMap<>();
+          b.put(3,1);
+          b.put(2,1);
+          b.put(1,1);
+          b.put(4,1);
+    }
 }
