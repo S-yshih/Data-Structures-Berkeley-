@@ -1,6 +1,12 @@
 package hashmap;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
+import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.Iterator;
+
 
 /**
  *  A hash table-backed Map implementation. Provides amortized constant time
@@ -28,11 +34,24 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
     /* Instance Variables */
     private Collection<Node>[] buckets;
     // You should probably define some more!
+    // Below variables are defined by me
+    private int Size;
+    private double loadFactor;
 
     /** Constructors */
-    public MyHashMap() { }
+    public MyHashMap() {
+        //I wrote stuff in this constructor
+        this.Size = 16;
+        this.loadFactor = 0.75;
+        this.buckets = new Collection[Size];
+    }
 
-    public MyHashMap(int initialSize) { }
+    public MyHashMap(int initialSize) {
+        //I wrote stuff in this constructor
+        this.Size = initialSize;
+        this.loadFactor = 0.75;
+        this.buckets = new Collection[Size];
+    }
 
     /**
      * MyHashMap constructor that creates a backing array of initialSize.
@@ -41,13 +60,19 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * @param initialSize initial size of backing array
      * @param maxLoad maximum load factor
      */
-    public MyHashMap(int initialSize, double maxLoad) { }
+    public MyHashMap(int initialSize, double maxLoad) {
+        //I wrote stuff in this constructor
+        this.Size = initialSize;
+        this.loadFactor = maxLoad;
+        this.buckets = new Collection[Size];
+    }
 
     /**
      * Returns a new node to be placed in a hash table bucket
      */
     private Node createNode(K key, V value) {
-        return null;
+        // help is this rly it????
+        return new Node(key, value);
     }
 
     /**
@@ -69,7 +94,9 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      * OWN BUCKET DATA STRUCTURES WITH THE NEW OPERATOR!
      */
     protected Collection<Node> createBucket() {
-        return null;
+        // ??? do i just do a random thing
+        // bc the bucket classes override this??
+        return new ArrayList<>();
     }
 
     /**
@@ -81,11 +108,49 @@ public class MyHashMap<K, V> implements Map61B<K, V> {
      *
      * @param tableSize the size of the table to create
      */
+        // IDK WHAT A TABLE IS
+
     private Collection<Node>[] createTable(int tableSize) {
         return null;
     }
 
     // TODO: Implement the methods of the Map61B Interface below
-    // Your code won't compile until you do so!
+    // I added the method names...
 
+    @Override
+    public void clear(){
+
+    }
+    @Override
+    public boolean containsKey(K key){
+        return false;
+    }
+    @Override
+    public V get(K key){
+        return null;
+    }
+    @Override
+    public int size(){
+        return this.Size;
+    }
+    @Override
+    public void put(K key, V value){
+
+    }
+    @Override
+    public Set<K> keySet(){
+        return null;
+    }
+    @Override
+    public V remove(K key){
+        throw new UnsupportedOperationException();
+    }
+    @Override
+    public V remove(K key, V value){
+        throw new UnsupportedOperationException();
+    }
+    @Override
+    public Iterator<K> iterator() {
+        return null;
+    }
 }
